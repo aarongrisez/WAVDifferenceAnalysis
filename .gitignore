@@ -52,3 +52,5 @@ Debug/AudioFile.pdb
 *.obj
 *.pbxproj
 *.xcworkspacedata
+AudioFile.sln
+AudioFile.vcxproj
