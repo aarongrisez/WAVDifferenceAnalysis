@@ -154,6 +154,20 @@ pair<bool, bool> checkNeighbors(float* input, float target, int candidate) {
 
 int binarySearchFloatArray(float* input, float target, int startIndex, int endIndex, int counter, int previousCandidate) {
 	// Takes a binary search approach to finding the first non-target element of input array
+	// 
+	// NOTE: This isn't the best implementation for finding ALL different samples. It is a quick
+	// solution for finding SOME difference between the two WAVs, as long as one doesn't mind which difference that is
+	//
+	// THOUGHT: For future development, this function can still be of use. We'd need (1) the user to provide a rough window in which
+	// to search for a difference, and (2) the user to know with good confidence that the window would look like one of these cases:
+	//
+	// CASE 1:					CASE 2:					CASE 3:					CASE 4:
+	// ----------++++++++++     ++++++++++----------	++++++----------++++	(inversion of CASE 3)
+	//
+	// where (+) represents a sample that is the same in both files, and (-) represents a sample that is different in both files.
+	// (essentially, those cases are when you have no more than 3 contiguous blocks of samples that are either all the same or all
+	// different)
+
 	counter++;
 	int candidate = middleInt(startIndex, endIndex);
 	pair<bool, bool> neighborMatches = make_pair(false, false);
@@ -164,7 +178,6 @@ int binarySearchFloatArray(float* input, float target, int startIndex, int endIn
 		}
 		else {
 			if (input[candidate] == target) {
-				// Check to the right, tolerance number of steps for additional zeros
 				cout << "Found candidate at " << candidate << endl;
 				neighborMatches = checkNeighbors(input, target, candidate);
 			}

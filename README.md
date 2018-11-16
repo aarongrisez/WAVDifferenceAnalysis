@@ -1,132 +1,47 @@
-# AudioFile
+# WAVDifferenceAnalyzer
 
-<!-- Version and License Badges -->
-![Version](https://img.shields.io/badge/version-1.0.2-green.svg?style=flat-square) 
-![License](https://img.shields.io/badge/license-GPL-blue.svg?style=flat-square) 
-![Language](https://img.shields.io/badge/language-C++-yellow.svg?style=flat-square) 
+A short program for detecting differences between two WAV files.
 
-A simple C++ library for reading and writing audio files. 
 
-Current supported formats:
+Getting Started
+---------------
 
-* WAV
-* AIFF
+To use, compile both `DifferenceAnalysis.cpp` and `AudioFile.cpp`. Be sure that the files to be analyzed are in the same directory as the generated binary. Absolute paths to WAV files will likely work, but I haven't tested them extensively.
 
-Author
-------
+The files included in this repository have been successfuly compiled under the following conditions:
+
+1. Linux (Ubuntu 18.04.1) using `g++` with the `std=c++11` flag
+2. Windows 10 in Visual Studio 2017
+
+Usage
+-----
+As of 11/15/18, features implemented are:
+
+- Detect either the beginning or end of a range where two WAV files differ samplewise
+
+Features in Development:
+
+- Calculate number of total different samples
+- Detect the beginning and end of all ranges where two WAV files differ samplewise (under adequate assumptions)
+- Write difference ranges (difference beginning and difference end) to a file
+- Segment and reconstruct files such that the total number of different samples is minimized
+
+Assumptions:
+------------
+1. The two WAV files are mostly similar - very different WAV files will still succeed, but the intent of this program is to process WAVs that are closely related. One example could be a recording which later had a segment punched in.
+2. The differences occur in blocks consisting of more than one contiguous sample. This is a reasonable assumption for most use-cases--any significant editing of an audio file will yield changes in more than one sample.
+3. The two WAV files can be of different lengths, but should be lined up at the left. i.e.: the leftmost sample (first sample) in the first file corresponds to the leftmost sample in the second file. The exception to this would be if the difference began at the start of the file. Accounting for that case is in development.
+
+Dependencies
+------------
 
 AudioFile is written and maintained by Adam Stark.
 
 [http://www.adamstark.co.uk](http://www.adamstark.co.uk)
 
-Usage
------
 
-### Create an AudioFile object:
-
-	#include "AudioFile.h"
-
-	AudioFile<double> audioFile;
-		
-### Load an audio file:
-
-	audioFile.load ("/path/to/my/audiofile.wav");
-	
-### Get some information about the loaded audio:
-
-	int sampleRate = audioFile.getSampleRate();
-	int bitDepth = audioFile.getBitDepth();
-	
-	int numSamples = audioFile.getNumSamplesPerChannel();
-	double lengthInSeconds = audioFile.getLengthInSeconds();
-	
-	int numChannels = audioFile.getNumChannels();
-	bool isMono = audioFile.isMono();
-	bool isStereo = audioFile.isStereo();
-	
-	// or, just use this quick shortcut to print a summary to the console
-	audioFile.printSummary();
-	
-### Access the samples directly:
-
-	int channel = 0;
-	int numSamples = audioFile.getNumSamplesPerChannel();
-
-	for (int i = 0; i < numSamples; i++)
-	{
-		double currentSample = audioFile.samples[channel][i];
-	}
-
-### Replace the AudioFile audio buffer with another
-
-	// 1. Create an AudioBuffer 
-	// (BTW, AudioBuffer is just a vector of vectors)
-	
-	AudioFile<double>::AudioBuffer buffer;
-	
-	// 2. Set to (e.g.) two channels
-	buffer.resize (2);
-	
-	// 3. Set number of samples per channel
-	buffer[0].resize (100000);
-	buffer[1].resize (100000);
-	
-	// 4. do something here to fill the buffer with samples
-	
-	// 5. Put into the AudioFile object
-	bool ok = audioFile.setAudioBuffer (buffer);
-	
-	
-### Resize the audio buffer	
-
-	// Set both the number of channels and number of samples per channel
-	audioFile.setAudioBufferSize (numChannels, numSamples);
-	
-	// Set the number of samples per channel
-	audioFile.setNumSamplesPerChannel (numSamples);
-	
-	// Set the number of channels
-	audioFile.setNumChannels (int numChannels);
-	
-### Set bit depth and sample rate
-	
-	audioFile.setBitDepth (24);
-	audioFile.setSampleRate (44100);
-	
-### Save the audio file to disk
-	
-	// Wave file (implicit)
-	audioFile.save ("path/to/desired/audioFile.wav");
-	
-	// Wave file (explicit)
-	audioFile.save ("path/to/desired/audioFile.wav", AudioFileFormat::Wave);
-	
-	// Aiff file
-	audioFile.save ("path/to/desired/audioFile.aif", AudioFileFormat::Aiff);
-
-
-A Note On Types
------------------
-
-AudioFile is a template class and so it can be instantiated using floating point precision:
-
-	AudioFile<float> audioFile;
-
-...or double precision:
-
-	AudioFile<double> audioFile;
-	
-This simply reflects the data type you would like to use to store the underlying audio samples. You can still read or write 8, 16 or 24-bit audio files, regardless of the type that you use (unless your system uses a precision for floats less than your desired bit depth).
-
-Versions
--------
-
-##### 1.0.2 - 6th June 2017
-
-- Bug fixes
-
-License
--------
+Audio File License
+------------------
 
 Copyright (c) 2017 Adam Stark
 
