@@ -1,0 +1,54 @@
+# Xcode
+#
+# gitignore contributors: remember to update Global/Xcode.gitignore, Objective-C.gitignore & Swift.gitignore
+
+## Build generated
+build/
+DerivedData/
+
+## Various settings
+*.pbxuser
+!default.pbxuser
+*.mode1v3
+!default.mode1v3
+*.mode2v3
+!default.mode2v3
+*.perspectivev3
+!default.perspectivev3
+xcuserdata/
+
+## Other
+*.moved-aside
+*.xccheckout
+*.xcscmblueprint
+
+
+*.pyc
+
+audio-write-tests
+AudioFile.vcxproj.filters
+AudioFile.vcxproj.user
+Debug/AiffLoadingTests.obj
+Debug/Analysis.obj
+Debug/AudioFile.Build.CppClean.log
+Debug/AudioFile.exe
+Debug/AudioFile.ilk
+Debug/AudioFile.log
+Debug/AudioFile.obj
+Debug/AudioFile.pdb
+.vs/AudioFile/v15/ipch/AutoPCH/df067bf597d5441b/MAIN.ipch
+.vs/AudioFile/v15/ipch/AutoPCH/f008baabe418d37d/DIFFERENCEANALYSIS.ipch
+.vs/AudioFile/v15/.suo
+.vs/AudioFile/v15/Browse.VC.db
+.vs/AudioFile/v15/Browse.VC.opendb
+.vs/AudioFile/v15/ipch/AutoPCH/4428e7c5a495940a/TEST_MAIN.ipch
+.vs/AudioFile/v15/ipch/AutoPCH/8d6252892c42b26a/ANALYSIS.ipch
+*.lastbuildstate
+*.tlog
+*.CopyComplete
+*.dll
+*.pdb
+*.log
+*.obj
+*.pbxproj
+*.xcworkspacedata
